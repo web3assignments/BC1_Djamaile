@@ -1,0 +1,2 @@
+# BC1_Djamaile
+THUASMinorBlockchain_20192020B_IT repository for Djamaile
