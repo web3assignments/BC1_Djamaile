@@ -70,6 +70,7 @@ contract CalorieMoney {
     }
 
     function getFoodItemFromUser(address user) public view returns (address, string memory, uint, string memory){
+        require(foodItemMap[user].cal > 1, "User does not exit in our program");
         FoodItem memory item = foodItemMap[user];
         return (item.User, item.foodName, item.cal, item.dateReg);
     }
