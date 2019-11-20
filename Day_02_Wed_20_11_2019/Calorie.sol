@@ -11,23 +11,26 @@ contract CalorieMoney {
     uint private totalCal = eatenCal - burnedCal;
 
     struct FoodItem {
+        address User;
         string foodName;
         uint cal;
         string dateReg;
     }
 
-    //TODO: add mapping for foodItems
     FoodItem[] internal foodItems;
+    mapping(address => FoodItem) foodItemMap;
 
-    function _addFoodItem(string memory _foodName, uint _cal, string memory _dateReg) private {
-        uint id = foodItems.push(FoodItem(_foodName, _cal, _dateReg)) - 1;
+    function _addFoodItem(address user, string memory _foodName, uint _cal, string memory _dateReg) private {
+        FoodItem memory foodItem = FoodItem(user,_foodName, _cal, _dateReg);
+        uint id = foodItems.push(foodItem) - 1;
+        foodItemMap[user] = foodItem;
         totalCal += _cal;
         eatenCal += _cal;
         emit NewFoodItem("New Food item added", id, _foodName, _cal);
     }
 
-    function addFoodItem(string memory _foodName, uint _cal, string memory _dateReg) public {
-        _addFoodItem(_foodName, _cal, _dateReg);
+    function addFoodItem(address user, string memory _foodName, uint _cal, string memory _dateReg) public {
+        _addFoodItem(user, _foodName, _cal, _dateReg);
     }
 
 
@@ -64,5 +67,10 @@ contract CalorieMoney {
     function getTotalCal() public view returns (uint){
         require(totalCal != 0, "You haven't burned or added any calories");
         return totalCal;
+    }
+
+    function getFoodItemFromUser(address user) public view returns (address, string memory, uint, string memory){
+        FoodItem memory item = foodItemMap[user];
+        return (item.User, item.foodName, item.cal, item.dateReg);
     }
 }
