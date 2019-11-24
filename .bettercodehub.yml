@@ -1,2 +1,4 @@
 languages:
 - solidity
+exclude:
+- .*/BokkyPooBahsDateTimeLibrary\.sol
