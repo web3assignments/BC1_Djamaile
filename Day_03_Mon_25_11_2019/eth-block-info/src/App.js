@@ -92,6 +92,8 @@ function App() {
       return parseInt(res.data.result);
     }).catch(e => {console.log(e)});
 
+    //for some reason infura sometimes sends a NaN value back
+    //so to be sure if that is the case i'll send 10 back
     if(isNaN(transactionCount)){
       return 10;
     }
@@ -120,7 +122,8 @@ function App() {
       const transactionHash = await axios.post(`https://mainnet.infura.io/v3/7e3a6f6883144efd87a1788b11d9a3f2`, json).then(res => {
         return res.data.result.hash;
       }).catch(e => {
-        console.log(e);
+
+        console.log(e + `0x${i}`);
         //sometimes infura can't find any transaction, so i return a fake hash
         return "0xd1562e2928bdeff8efe8cd3d9ae6c5b0e747c1f646e5653c2c17e6f144add1e2";
       });
