@@ -19,7 +19,7 @@ const TestPayABI = [
 ];
 
 async function getTotalCal() {
-    const ContractAddress = "0xB7005405101E61fcD81ec1322AE72c54a99AED7A"
+    const ContractAddress = "0xB7005405101E61fcD81ec1322AE72c54a99AED7A";
     const CreateContract = new web3.eth.Contract(TestPayABI, ContractAddress);
     
     let totalCal = await CreateContract.methods.totalCal().call();
