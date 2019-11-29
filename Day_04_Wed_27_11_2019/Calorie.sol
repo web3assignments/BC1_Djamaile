@@ -8,12 +8,12 @@ contract Calorie {
     event calorieBurned(string message, uint cal);
     event checkedCalByDate(string message, uint dateSearched);
     event paidUser(string message, uint paid, uint userBalance);
+    event contractGot(string message, uint eth, uint contractBalance);
 
     uint public eatenCal;
     uint public burnedCal;
     uint public totalCal = eatenCal - burnedCal;
     uint public dailyLimit = 1900;
-    address payable wallet;
 
     struct FoodItem {
         address User;
@@ -26,9 +26,10 @@ contract Calorie {
     mapping(address => FoodItem) foodItemMap;
     mapping(bytes32 => uint) totalCaloriesByDate;
     mapping(address => uint) userBalance;
+    address public user;
 
     constructor() public payable {
-        wallet = msg.sender;
+        user = msg.sender;
     }
 
     function _addFoodItem(string memory _foodName, uint _cal) private {
@@ -89,6 +90,14 @@ contract Calorie {
         return (item.User, item.foodName, item.cal, item.dateReg);
     }
 
+    function transferFundsToContract() public payable{
+        emit contractGot("Contract got paid", msg.value, address(this).balance);
+    }
+
+    function getContractBalance() public view returns (uint){
+        return address(this).balance;
+    }
+
     /*
      The idea is that a user will get tokens based on his burned calories - eaten calories that is over the daily limit.
      For example, John has daily limit of 1900 calories he can eat per day. He burns 400 calories that day and is still
@@ -97,22 +106,23 @@ contract Calorie {
 
      This is still a idea in progress.
     */
-    function payOutTheUser() public payable {
+    function payOutTheUser() public{
         uint calDebt = 0;
 
         if(eatenCal > dailyLimit){
             calDebt = dailyLimit - eatenCal;
         }
 
-        //require(burnedCal < calDebt, "You need to burn more calories before you can get paid!");
-
+        require(burnedCal < calDebt, "You need to burn more calories before you can get paid!");
+        //should use msg.sender.transfer(userGotPaid) and make it a payable function
         uint userGotPaid = burnedCal - calDebt;
-        wallet.transfer(userGotPaid);
+        userBalance[msg.sender] += userGotPaid;
         totalCal = 0;
         emit paidUser("paid the user: ", userGotPaid, getUserBalance());
     }
 
+
     function getUserBalance() public view returns (uint){
-        return wallet.balance;
+        return userBalance[msg.sender];
     }
 }
