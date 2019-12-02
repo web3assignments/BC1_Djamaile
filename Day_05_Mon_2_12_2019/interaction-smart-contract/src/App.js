@@ -6,24 +6,35 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 
-const web3 = new Web3("https://ropsten.infura.io/v3/7e3a6f6883144efd87a1788b11d9a3f2");
+
 
 const Test = () => {
   const [totalcal, setTotalcal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [foodItems, setFoodItems] = useState([]);
-  const privateKey = 'e0f3440344e4814d0dea8a65c1b9c488bab4295571c72fb879f5c29c8c861937';
+  const [userAddress, setUserAddress] = useState();
+  const web3 = new Web3(Web3.givenProvider);
+  let ethereum = window.ethereum;
+  let address;
+
+  /*const privateKey = 'CC6A3A49D84ED00B261DA35ADC0FC083C81B4F0FD147478A1576D7446088CF0F';
   const account = web3.eth.accounts.privateKeyToAccount('0x' + privateKey);
   web3.eth.accounts.wallet.add(account);
   web3.eth.defaultAccount = account.address;
-  const defaultAccount = web3.eth.defaultAccount;
-  const contractAddress = "0x3005Ae07212edAab1c5f69D40531A55D6e2f8a46";
+  const defaultAccount = web3.eth.defaultAccount;*/
+
+
+
+  const contractAddress = "0x3047d2B9900F754f543773d3a4fEADc18bD57628";
   let createdContract = new web3.eth.Contract(ABI, contractAddress);
 
   useEffect(() => {
-
+    
     async function loadData() {
-      const foodItemsIds = await getFoodItemsOfOwner(defaultAccount);
+      const currentAddress = await web3.eth.getAccounts();
+      setUserAddress(currentAddress[0]);
+
+      const foodItemsIds = await getFoodItemsOfOwner(currentAddress[0]);
       await displayFoodItems(foodItemsIds);
 
       const cal = await getTotalCal();
@@ -36,7 +47,7 @@ const Test = () => {
   async function addFoodItem(naam, cal) {
     setLoading(true);
     await createdContract.methods.addFoodItem(naam, cal).send({
-      from: web3.eth.defaultAccount,
+      from: userAddress,
       gas: 3000000
     }).catch(e => { console.log(e) });
 
@@ -76,22 +87,21 @@ const Test = () => {
     return <p>Loading...</p>
   }
 
-  if (foodItems.length <= 0) {
-    return <p>No food itens</p>;
-  }
 
   return (
     <Fragment>
-      {loading !== true ? <button onClick={() => addFoodItem("Delicious food 3", 100)}>AddFoodITem</button> : <p>sending transaction..</p>}
-      <p>
-        Total Calories: {totalcal}
-      </p>
+      {loading !== true ? <button onClick={() => addFoodItem("Delicious food 3", 100)}>Add Food</button> : <p>sending transaction..</p>}
       {foodItems.length <= 0 ?
-        <p>No food items added yet</p>
+      <Fragment>
+         <p>No food items added yet</p>
+      </Fragment>        
         :
         <Fragment>
           <CssBaseline />
           <Container fixed>
+            <p>
+              Total Calories: {totalcal}
+            </p>
             <Grid container spacing={3}>
               {foodItems.map((food, index) => (
                 <Fragment key={index}>
