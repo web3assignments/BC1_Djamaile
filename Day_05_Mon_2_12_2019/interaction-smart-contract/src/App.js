@@ -15,14 +15,6 @@ const Test = () => {
   const [userAddress, setUserAddress] = useState();
   const web3 = new Web3(Web3.givenProvider);
   let ethereum = window.ethereum;
-  let address;
-
-  /*const privateKey = 'CC6A3A49D84ED00B261DA35ADC0FC083C81B4F0FD147478A1576D7446088CF0F';
-  const account = web3.eth.accounts.privateKeyToAccount('0x' + privateKey);
-  web3.eth.accounts.wallet.add(account);
-  web3.eth.defaultAccount = account.address;
-  const defaultAccount = web3.eth.defaultAccount;*/
-
 
 
   const contractAddress = "0x3047d2B9900F754f543773d3a4fEADc18bD57628";
