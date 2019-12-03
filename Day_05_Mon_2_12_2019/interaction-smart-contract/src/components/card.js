@@ -1,42 +1,41 @@
 import React, { Fragment } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import {convert} from "../utils/convertUnixToDate";
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import { convert } from "../utils/convertUnixToDate";
 import Image from "../images/salad.jpg";
+import { Card, Icon, Avatar } from 'antd';
 
-const useStyles = makeStyles({
-    card: {
-        maxWidth: 345,
-    },
-    media: {
-        height: 140,
-    },
-});
 
 export const FoodCard = (props) => {
-    const classes = useStyles();
+    const { Meta } = Card;
+
+    const Desc = (
+        <Fragment>
+            <p>Date: {convert(props.date)} <br /> Cal: {props.calorie}</p>
+        </Fragment>
+    );
+
     return (
         <Fragment key={props.index}>
-            <Card className={classes.card}>
-                <CardActionArea>
-                    <CardMedia
-                        className={classes.media}
-                        image={Image}
-                        title={props.food}
+            <Card
+                style={{ width: '100%' }}
+                loading={props.loading}
+                cover={
+                    <img
+                        alt="example"
+                        src={Image}
                     />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            {props.food}
-                         </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                           {convert(props.date)}
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
+                }
+                actions={[
+                    <Icon type="setting" key="setting" />,
+                    <Icon type="edit" key="edit" />,
+                    <Icon type="ellipsis" key="ellipsis" />,
+                ]}
+            >
+                <Meta
+                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                    title={props.foodName}
+                    description={Desc}
+                />
             </Card>
         </Fragment>
     );
