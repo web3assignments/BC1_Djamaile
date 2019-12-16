@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Menu, Icon, Button } from 'antd';
 import history from "../utils/history";
+import {DefaultSelect} from "../utils/getDefaultSelected";
 import 'antd/dist/antd.css';
 
-class SideNav extends React.Component {
-  render() {
+const SideNav = () => {
+  useEffect(() => {}, [DefaultSelect()]);
     return (
       <div style={{ width: '100%', height: '100%'}}>
         <Menu
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={[DefaultSelect(window.location.pathname)]}
           defaultOpenKeys={['sub1']}
           mode="inline"
           theme="dark"
@@ -29,7 +30,6 @@ class SideNav extends React.Component {
         </Menu>
       </div>
     );
-  }
 }
 
 export default SideNav;
