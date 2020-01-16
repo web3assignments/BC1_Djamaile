@@ -41,5 +41,5 @@ But you cannot only store your passwords you can also store your pincodes, pass 
  You can use these wallets to store cryptocurrencies and token:
  1. paper wallets
  2. steel wallets
- 2. hardware wallets 
+ 2. hardware wallets
  
