@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+         <script src="ens-web3-browserify.js"></script> 
+    </head>
+    <body>
+        <h1>ENS Address (web3.js api) (Ropsten)</h1>
+        <pre id="log" style="width:100%;height:200px"></pre>
+        <script type="text/javascript">
+        function log(logstr) {   
+            document.getElementById("log").innerHTML +=logstr+"\n";
+        }
+        async function Reverse(address) {        
+            var lookup=address.toLowerCase().substr(2) + '.addr.reverse';
+            log(`Reverse via ${lookup}`);
+            var ResolverContract=await web3.eth.ens.resolver(lookup);
+            var nh=namehash.hash(lookup);
+            var name=await ResolverContract.methods.name(nh).call()
+            return name;
+        }                
+        async function f() { 
+            web3 = new Web3(Web3.givenProvider); // provider from metamask         
+            web3.extend({ // web3.eth.requestAccounts() isn't available (yet)
+                methods: [{
+                    name: 'eth_requestAccounts',
+                    call: 'eth_requestAccounts',
+                    params: 0
+                }]
+            });
+            var result=await web3.eth_requestAccounts();            
+            var address="0x179AB252719b2485138065E147d755C02ECc9547";
+            log (`Address: ${address}`);
+            var reverse=await Reverse(address)
+            log(`Reverse: ${reverse}`);
+        }
+        f();
+        </script>        
+    </body>
+</html>
