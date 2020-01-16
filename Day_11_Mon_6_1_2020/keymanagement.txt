@@ -1,0 +1,45 @@
+# Key management assignment 
+
+### Password management
+
+These days as internet is only growing and growing it is important to secure your passwords. 
+The only downside by having a lot of secure passwords is that they are hard to remember. 
+But luckily humans have thought about ways to help you with that. 
+Now a days you can use password managers to store your passwords and manage them. 
+Furthermore, is it hard for attackers to steal your password from such a password manager. 
+But you cannot only store your passwords you can also store your pincodes, pass phrases, addresses and private keys. 
+ 
+ ##### Recap
+ 
+ use password managers to manage:
+ 1. passwords
+ 2. pincodes
+ 3. pass phrases
+ 4. addresses 
+ 5. private keys
+ 
+ ### Different type of wallets
+ 
+ Everyone knows what a physical wallet looks like, but how can you store your tokens & cryptocurrencies? 
+ Well there are digital and even physical "wallets" that can help you with that. 
+ For example, you can use a [paper wallet](https://generatepaperwallet.com/ethereum/). 
+ In simple terms, a paper wallet is a offline method of storing your crypto. 
+ It does it by generating a private and public key with their respecting QR code. The user should then print it. 
+ Of course this not very safe because you can easily lose this or it can get stolen.
+ 
+ In addition, there is a [steel wallet](https://cryptosteel.com/?v=796834e7a283).
+ This steel wallet is created to survive the harshest conditions, so as a user you don't have to worry about that. 
+ Also, is it hacker proof because of the advances algorithms it use. 
+ 
+ Lastly, there are hardware [hardware wallets](https://www.ledger.com/). 
+ Also, in simple terms a hardware wallet is a USB that stores the public and private key of the user. 
+ This is great for usability, but also attractive for foul parties. 
+ Because it gives easy access to your private information if it's get stolen. 
+ 
+ ##### Recap
+ 
+ You can use these wallets to store cryptocurrencies and token:
+ 1. paper wallets
+ 2. steel wallets
+ 2. hardware wallets 
+ 
