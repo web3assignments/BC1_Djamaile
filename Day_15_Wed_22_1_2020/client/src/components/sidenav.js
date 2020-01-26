@@ -23,9 +23,9 @@ const SideNav = () => {
             <Icon type="desktop" />
             <span>Add Food Items</span>
           </Menu.Item>
-          <Menu.Item key="3">
+          <Menu.Item key="3" onClick={() => history.push("/burn-cal")}>
             <Icon type="inbox" />
-            <span>Calorie Info</span>
+            <span>Burn calories</span>
           </Menu.Item>
         </Menu>
       </div>

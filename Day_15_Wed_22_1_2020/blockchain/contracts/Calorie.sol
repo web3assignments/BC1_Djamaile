@@ -131,6 +131,19 @@ contract Calorie {
         }
         return result;
     }
+
+    /// @param year, the year of the food when it was added
+    /// @param month, the year of the food when it was added
+    /// @param day, the year of the food when it was added
+    /// @return if the user is over the daily limit of 1900 calories
+    function isOverDailyLimit(uint year, uint month, uint day) public view returns (bool){
+        uint totalCalToday = getTotalCalEatenByDate(year,month,day) - burnedCal;
+        if(totalCalToday > dailyLimit){
+            return true;
+        }else{
+            return false;
+        }
+    }
     
     function stopContract() public onlyAuthorized {
         isStopped = true;
@@ -138,19 +151,8 @@ contract Calorie {
     
     function resumeContract() public onlyAuthorized {
         isStopped = false;
-    }
-    
-    function payOutUser() public payable stoppedInEmergency{
-         /*
-     The idea is that a user will get tokens based on his burned calories - eaten calories that is over the daily limit.
-     For example, John has daily limit of 1900 calories he can eat per day. He burns 400 calories that day and is still
-     within his limit of 1900 calories, he will get paid 400 calorie tokens. But if John ate 2100 calories and burned 400,
-     he would only get 200 calorie tokens.
+    }    
 
-     This is still a idea in progress.
-    */
-    }
-    
     function destroyContract() public onlyAuthorized {
         selfdestruct(msg.sender);
     }   

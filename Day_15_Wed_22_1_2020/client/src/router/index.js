@@ -5,7 +5,7 @@ import App from "../views/home/App";
 import Grid from '@material-ui/core/Grid';
 import SideNav from "../components/sidenav";
 import AddFood from "../views/add-food-item/AddFood";
-import SendIcon from "../views/sendIcon";
+import BurnCal from "../views/burn/BurnCalorie";
 
 const AppRouter = () => {
     return(
@@ -18,8 +18,8 @@ const AppRouter = () => {
                     <Grid item xs={7}>
                         <Switch>
                             <Route path="/" exact component={App} />
-                            <Route path="/add-food"exact component={AddFood}/>
-                            <Route path="/send-icon"exact component={SendIcon}/>
+                            <Route path="/burn-cal" exact component={BurnCal}/>
+                            <Route path="/add-food" exact component={AddFood}/>
                         </Switch>
                     </Grid>
                 </Grid>

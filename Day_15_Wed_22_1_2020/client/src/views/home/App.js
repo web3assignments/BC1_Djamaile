@@ -14,9 +14,10 @@ const App = () => {
   const [totalcal, setTotalcal] = useState(0);
   const [foodItems, setFoodItems] = useState([]);
   const [userAddress, setUserAddress] = useState();
+  const [overLimit, setOverLimit] = useState(false);
+  const [burnedCal, setBurnedCal] = useState(0);
   const web3 = new Web3(Web3.givenProvider);
   let ethereum = window.ethereum;
-  const contractAddress = "0x4895B953605cC6f6c9a8A7967575a828689A386e";
   let createdContract = new web3.eth.Contract(ABI, process.env.REACT_APP_CONTRACT);
 
   useEffect(() => {
@@ -28,6 +29,10 @@ const App = () => {
       if (!foodItemsIds) {
         return;
       }
+      const isOver = await userIsOverDailyLimit();
+      const burned = await getBurnedCalories();
+      setBurnedCal(burned);
+      setOverLimit(isOver);
       await displayFoodItems(foodItemsIds);
     }
 
@@ -50,6 +55,18 @@ const App = () => {
 
   async function getFoodItemsOfOwner(address) {
     return await createdContract.methods.getFoodItemFromOwner(address).call();
+  }
+
+  async function getBurnedCalories(){
+    return await createdContract.methods.burnedCal().call();
+  }
+
+  async function userIsOverDailyLimit(){
+    let date = new Date();
+    const year = date.getYear() + 1900;
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return await createdContract.methods.isOverDailyLimit(year,month,day).call();
   }
 
   async function displayFoodItems(ids) {
@@ -114,8 +131,11 @@ const App = () => {
           <CssBaseline />
           <Container fixed>
             <p>
-              Total Calories: {getTotalCal()}
+              Total Calories eaten: {getTotalCal()} <br/>
+              Total Calories burned: {burnedCal}
             </p>
+            {overLimit ? <p> User is over the daily limit of 1900 calories. Please workout!</p> : <p>Not over the daily limit!</p>}
+
             <Grid container spacing={3}>
               {foodItems.map((food, index) => (
                 <Fragment key={index}>
